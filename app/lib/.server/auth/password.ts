@@ -6,6 +6,7 @@ const KEY_LENGTH = 32;
 function toArrayBuffer(view: Uint8Array): ArrayBuffer {
   const copy = new Uint8Array(view.byteLength);
   copy.set(view);
+
   return copy.buffer;
 }
 
@@ -15,17 +16,23 @@ function encodeUtf8ToArrayBuffer(value: string): ArrayBuffer {
 
 function base64UrlEncode(bytes: Uint8Array): string {
   let binary = '';
+
   for (let i = 0; i < bytes.length; i++) {
     binary += String.fromCharCode(bytes[i]);
   }
 
   const base64 = btoa(binary);
+
   return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
 }
 
 function base64UrlDecode(value: string): Uint8Array {
-  const padded = value.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(value.length / 4) * 4, '=');
+  const padded = value
+    .replace(/-/g, '+')
+    .replace(/_/g, '/')
+    .padEnd(Math.ceil(value.length / 4) * 4, '=');
   const binary = atob(padded);
+
   return Uint8Array.from(binary, (char) => char.charCodeAt(0));
 }
 
@@ -54,6 +61,7 @@ function timingSafeEqual(a: Uint8Array, b: Uint8Array): boolean {
   }
 
   let diff = 0;
+
   for (let i = 0; i < a.length; i++) {
     diff |= a[i] ^ b[i];
   }
@@ -64,16 +72,18 @@ function timingSafeEqual(a: Uint8Array, b: Uint8Array): boolean {
 export async function hashPassword(password: string): Promise<string> {
   const salt = crypto.getRandomValues(new Uint8Array(16));
   const hash = await deriveHash(password, salt);
+
   return `pbkdf2$${ITERATIONS}$${base64UrlEncode(salt)}$${base64UrlEncode(hash)}`;
 }
 
 export async function verifyPassword(password: string, encodedHash: string): Promise<boolean> {
   const parts = encodedHash.split('$');
+
   if (parts.length !== 4 || parts[0] !== 'pbkdf2') {
     return false;
   }
 
-  const [_, iterationsRaw, saltRaw, hashRaw] = parts;
+  const [, iterationsRaw, saltRaw, hashRaw] = parts;
   const iterations = Number(iterationsRaw);
 
   if (!Number.isFinite(iterations) || iterations <= 0) {
@@ -99,5 +109,6 @@ export async function verifyPassword(password: string, encodedHash: string): Pro
   );
 
   const actualHash = new Uint8Array(bits);
+
   return timingSafeEqual(expectedHash, actualHash);
 }

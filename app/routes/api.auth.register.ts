@@ -55,4 +55,3 @@ async function registerAction({ request }: ActionFunctionArgs) {
 export const action = withSecurity(registerAction, {
   allowedMethods: ['POST'],
 });
-

@@ -62,7 +62,14 @@ export function serializeSessionCookie(token: string): string {
 }
 
 export function clearSessionCookie(): string {
-  return [`${SESSION_COOKIE_NAME}=`, 'Max-Age=0', 'Path=/', 'HttpOnly', 'SameSite=Lax', process.env.NODE_ENV === 'production' ? 'Secure' : '']
+  return [
+    `${SESSION_COOKIE_NAME}=`,
+    'Max-Age=0',
+    'Path=/',
+    'HttpOnly',
+    'SameSite=Lax',
+    process.env.NODE_ENV === 'production' ? 'Secure' : '',
+  ]
     .filter(Boolean)
     .join('; ');
 }

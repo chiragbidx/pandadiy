@@ -60,4 +60,3 @@ export async function createUser(email: string, passwordHash: string, name?: str
 
   return result.rows[0];
 }
-

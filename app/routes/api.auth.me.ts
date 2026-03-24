@@ -39,4 +39,3 @@ async function meLoader({ request }: LoaderFunctionArgs) {
 export const loader = withSecurity(meLoader, {
   allowedMethods: ['GET'],
 });
-

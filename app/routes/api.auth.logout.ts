@@ -20,4 +20,3 @@ async function logoutAction(_args: ActionFunctionArgs) {
 export const action = withSecurity(logoutAction, {
   allowedMethods: ['POST'],
 });
-

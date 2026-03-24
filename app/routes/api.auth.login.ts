@@ -57,4 +57,3 @@ async function loginAction({ request }: ActionFunctionArgs) {
 export const action = withSecurity(loginAction, {
   allowedMethods: ['POST'],
 });
-
