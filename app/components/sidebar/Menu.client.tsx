@@ -303,6 +303,18 @@ export const Menu = () => {
     };
   }, [isSettingsOpen]);
 
+  useEffect(() => {
+    const onToggleSidebar = () => {
+      setOpen((prev) => !prev);
+    };
+
+    window.addEventListener('toggle-sidebar-menu', onToggleSidebar);
+
+    return () => {
+      window.removeEventListener('toggle-sidebar-menu', onToggleSidebar);
+    };
+  }, []);
+
   const handleDuplicate = async (id: string) => {
     await duplicateCurrentChat(id);
     loadEntries(); // Reload the list after duplication
