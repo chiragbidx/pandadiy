@@ -26,8 +26,6 @@ dist-ssr
 /.cache
 /build
 functions/build/
-.env.local
-.env
 .dev.vars
 *.vars
 .wrangler
@@ -46,3 +44,4 @@ docs/instructions/Roadmap.md
 .cursorrules
 *.md
 .qodo
+config.bat

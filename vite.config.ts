@@ -65,6 +65,9 @@ export default defineConfig((config) => {
       'LMSTUDIO_API_BASE_URL',
       'TOGETHER_API_BASE_URL',
     ],
+    server: {
+      allowedHosts: ['pandadiy-production.up.railway.app'],
+    },
     css: {
       preprocessorOptions: {
         scss: {
